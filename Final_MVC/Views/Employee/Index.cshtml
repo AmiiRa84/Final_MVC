@@ -1,0 +1,189 @@
+﻿@using Company.DAL.Entities;
+@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "Employee Directory";
+    var primaryColor = "#E75480";  // Soft pink
+    var secondaryColor = "#9370DB"; // Medium purple
+    var accentColor = "#FFD1DC";    // Light pink
+    var textColor = "#4B0082";      // Dark purple for text
+}
+
+<style>
+    body {
+        background-color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+        color: @textColor;
+        font-weight: 600;
+        border-bottom: 3px solid @primaryColor;
+        padding-bottom: 10px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .btn-primary {
+        background-color: @primaryColor;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #D04673;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .table {
+        border: 2px solid @accentColor;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    thead {
+        background: linear-gradient(135deg, @primaryColor, @secondaryColor );
+        color: white;
+    }
+
+    th {
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        padding: 15px !important;
+    }
+
+    tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        tbody tr:hover {
+            background-color: #FFF0F5;
+            transform: scale(1.01);
+        }
+
+    td {
+        padding: 12px 15px !important;
+        vertical-align: middle;
+        color: @textColor;
+    }
+
+    .btn-warning {
+        background-color: #FFA500;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-success {
+        background-color: #32CD32;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger {
+        background-color: #FF4500;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-warning:hover, .btn-success:hover, .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+        }
+
+    .alert-info {
+        background-color: @accentColor;
+        color: @textColor;
+        border: 2px solid @primaryColor;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .action-buttons {
+        white-space: nowrap;
+    }
+
+    .emoji {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="container mt-4">
+    <h1>Employee Directory</h1>
+    <br />
+    <a asp-action="Create" asp-controller="Employee" class="btn btn-primary mb-4">
+        <span class="emoji">➕</span> Add New Employee
+    </a>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(D => D.Name)</th>
+                        <th>@Html.DisplayNameFor(D => D.Age)</th>
+                        <th>@Html.DisplayNameFor(D => D.Salary)</th>
+                        <th>@Html.DisplayNameFor(D => D.department.Name)</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Age</td>
+                            <td>$@item.Salary.ToString("N0")</td>
+                            <td>@item.department?.Name</td>
+                            <td class="action-buttons text-center">
+                                <a asp-controller="Employee" asp-route-id="@item.Id" asp-action="Details" class="btn btn-warning">
+                                    <span class="emoji">👁️</span> Details
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">
+                                    <span class="emoji">✏️</span> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                    <span class="emoji">🗑️</span> Delete
+                                </a>
+                            </td>
+                            <td>@(item.department?.Name ?? "No Department")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <h4><span class="emoji"></span> No Employees Found</h4>
+            <p class="mb-0">Click the "Add New Employee" button to create your first employee record.</p>
+        </div>
+    }
+</div>

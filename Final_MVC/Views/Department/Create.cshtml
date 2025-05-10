@@ -1,0 +1,102 @@
+﻿@model Company.DAL.Entities.Department
+@using Company.DAL.Entities
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    /* Custom styles for purple, white, and baby blue theme */
+    .create-form-container {
+        background-color: #FFFFFF; /* White background */
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 50px auto;
+    }
+
+    h1 {
+        color: #6B5B95; /* Purple */
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-group label {
+        color: #6B5B95; /* Purple labels */
+        font-weight: 500;
+    }
+
+    .form-control {
+        border: 2px solid #AED6F1; /* Baby blue border */
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #6B5B95; /* Purple border on focus */
+            box-shadow: 0 0 5px rgba(107, 91, 149, 0.3);
+        }
+
+    .btn-primary {
+        background-color: #6B5B95; /* Purple button */
+        border-color: #6B5B95;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #58497A; /* Darker purple on hover */
+            border-color: #58497A;
+        }
+
+    .btn-light {
+        background-color: #AED6F1; /* Baby blue button */
+        color: #6B5B95; /* Purple text */
+        border: 2px solid #AED6F1;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-light:hover {
+            background-color: #87CEEB; /* Darker baby blue on hover */
+            border-color: #87CEEB;
+            color: #58497A;
+        }
+
+    .text-danger {
+        color: #DC3545; /* Keep default red for validation errors */
+    }
+</style>
+
+<div class="create-form-container">
+    <h1>Create Department</h1>
+    <br />
+    <br />
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label asp-for="Code" class="col-form-label"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreationDate" class="col-form-label"></label>
+            <input asp-for="CreationDate" class="form-control" type="datetime-local" />
+            <span asp-validation-for="CreationDate" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <a asp-controller="Department" asp-action="Index" class="btn btn-light">Back To List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

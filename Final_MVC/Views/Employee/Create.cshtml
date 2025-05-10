@@ -1,0 +1,137 @@
+﻿@using Company.DAL.Entities
+@model Employee
+@{
+    ViewData["Title"] = "Create";
+    var primaryColor = "#E75480";  // Soft pink
+    var secondaryColor = "#9370DB"; // Medium purple
+    var accentColor = "#FFD1DC";    // Light pink
+    var textColor = "#4B0082";      // Dark purple for text
+}
+
+<style>
+    body {
+        background-color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h1 {
+        color: @textColor;
+        border-bottom: 3px solid @primaryColor;
+        padding-bottom: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    label {
+        color: @textColor;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid @accentColor;
+        border-radius: 8px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: @secondaryColor;
+            box-shadow: 0 0 0 0.25rem rgba(147, 112, 219, 0.25);
+        }
+
+    .btn-primary {
+        background-color: @primaryColor;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #D04673;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-light {
+        background-color: @secondaryColor;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-light:hover {
+            background-color: #8364C7;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    span.text-danger {
+        font-size: 0.85em;
+        color: #FF4081;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+</style>
+
+<div class="container mt-4">
+    <h1>Add New Employee</h1>
+    <br />
+    <form asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Name" class="col-form-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter employee name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Age" class="col-form-label"></label>
+            <input asp-for="Age" class="form-control" placeholder="Enter employee age" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Salary" class="col-form-label"></label>
+            <input asp-for="Salary" class="form-control" placeholder="Enter employee salary" />
+            <span asp-validation-for="Salary" class="text-danger"></span>
+        </div>
+        @* <div class="form-group"> *@
+        @*     <label asp-for="DepartmentId" class="col-form-label">Department</label> *@
+        @*     <select asp-for="DepartmentId" asp-items="@ViewBag.Departments" class="form-select"> *@
+        @*         <option value="">-- Select Department --</option> *@
+        @*     </select> *@
+        @*     <span asp-validation-for="DepartmentId" class="text-danger"></span> *@
+        @* </div> *@
+        <div class="form-group text-right">
+            <input type="submit" value="Create Employee" class="btn btn-primary" />
+            <a asp-controller="Employee" asp-action="Index" class="btn btn-light ml-2">Back To List</a>
+
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="col-form-label">Department</label>
+                <select asp-for="DepartmentId" asp-items="@ViewBag.Departments" class="form-select">
+                    <option value="">-- Select Department --</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
+</div>

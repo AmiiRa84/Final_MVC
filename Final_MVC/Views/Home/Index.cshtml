@@ -1,0 +1,241 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    /* Root variables for colors */
+    :root {
+        --purple: #6B5B95;
+        --white: #FFFFFF;
+        --baby-blue: #AED6F1;
+        --dark-purple: #58497A;
+    }
+
+    body {
+        overflow-x: hidden;
+        background-color: var(--baby-blue); /* Baby blue background */
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .hero-section {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* Canvas for animated stars */
+    #starCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .welcome-text {
+        position: relative;
+        z-index: 2;
+        color: var(--white);
+        font-size: 4rem;
+        font-weight: 700;
+        text-shadow: 0 0 10px var(--baby-blue), 0 0 20px var(--purple);
+        margin-bottom: 2rem;
+    }
+
+    .explore-btn {
+        position: relative;
+        z-index: 2;
+        background-color: var(--baby-blue);
+        color: var(--purple);
+        border: 2px solid var(--purple);
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px var(--baby-blue);
+    }
+
+        .explore-btn:hover {
+            background-color: var(--purple);
+            color: var(--white);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--baby-blue);
+        }
+
+    /* Fade-in animation for scroll */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    /* Parallax background */
+    .parallax-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(107, 91, 149, 0.2), transparent);
+        z-index: 0;
+        transform: translateZ(0);
+    }
+</style>
+
+<div class="hero-section">
+    <div class="parallax-bg"></div>
+    <canvas id="starCanvas"></canvas>
+    <div>
+        <h1 class="welcome-text" id="welcomeText"></h1>
+        <a asp-controller="Department" asp-action="Index" class="explore-btn fade-in">Explore Departments</a>
+    </div>
+</div>
+
+<script>
+    // Typing Effect for Welcome Text
+    const welcomeText = document.getElementById('welcomeText');
+    const text = "Welcome to Our Project";
+    let index = 0;
+
+    function typeText() {
+        if (index < text.length) {
+            welcomeText.textContent += text.charAt(index);
+            index++;
+            setTimeout(typeText, 100);
+        }
+    }
+
+    window.onload = () => {
+        typeText();
+        initStars();
+        initMouseTrail();
+    };
+
+    // Animated Stars with Canvas
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const stars = [];
+    class Star {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 4 + 2; /* Larger stars */
+            this.speedX = Math.random() * 0.5 - 0.25;
+            this.speedY = Math.random() * 0.5 - 0.25;
+            this.opacity = Math.random() * 0.5 + 0.5;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.fill();
+        }
+    }
+
+    function initStars() {
+        for (let i = 0; i < 100; i++) {
+            stars.push(new Star());
+        }
+        animateStars();
+    }
+
+    function animateStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+            star.update();
+            star.draw();
+        });
+        requestAnimationFrame(animateStars);
+    }
+
+    // Mouse Trail Effect
+    const trailStars = [];
+    class TrailStar {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.size = Math.random() * 4 + 2; /* Larger trail stars */
+            this.life = 30;
+        }
+
+        update() {
+            this.life--;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(174, 214, 241, ${this.life / 30})`;
+            ctx.fill();
+        }
+    }
+
+    function initMouseTrail() {
+        canvas.addEventListener('mousemove', (e) => {
+            trailStars.push(new TrailStar(e.clientX, e.clientY));
+        });
+
+        function animateTrail() {
+            trailStars.forEach((star, index) => {
+                star.update();
+                star.draw();
+                if (star.life <= 0) trailStars.splice(index, 1);
+            });
+            requestAnimationFrame(animateTrail);
+        }
+        animateTrail();
+    }
+
+    // Scroll Fade-In Animation
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    fadeElements.forEach(el => observer.observe(el));
+
+    // Parallax Effect
+    window.addEventListener('scroll', () => {
+        const parallax = document.querySelector('.parallax-bg');
+        parallax.style.transform = `translateY(${window.scrollY * 0.5}px)`;
+    });
+</script>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+}

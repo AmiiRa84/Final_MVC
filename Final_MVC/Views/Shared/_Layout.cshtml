@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC Project</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MVC_Project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --light-blue: #93c5fd;
+            --primary-purple: #7c3aed;
+            --light-purple: #c4b5fd;
+            --primary-pink: #ec4899;
+            --light-pink: #f9a8d4;
+            --white: #ffffff;
+            --off-white: #f8fafc;
+            --dark-text: #1e293b;
+            /* Dark mode variables */
+            --dark-bg: #1a1a2e;
+            --darker-bg: #16213e;
+            --dark-text-color: #e2e8f0;
+            --dark-card-bg: #0f3460;
+        }
+
+        body {
+            background-color: var(--off-white);
+            color: var(--dark-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+            /* Dark mode styles */
+            body.dark-mode {
+                background-color: var(--dark-bg);
+                color: var(--dark-text-color);
+            }
+
+        .dark-mode main {
+            background-color: var(--dark-card-bg);
+            color: var(--dark-text-color);
+        }
+
+        .dark-mode .navbar {
+            background: linear-gradient(135deg, #4a1c7a, #1e3a8a) !important;
+        }
+
+        .dark-mode footer {
+            background: linear-gradient(135deg, #4a1c7a, #1e3a8a);
+        }
+
+        .dark-mode .nav-link:hover {
+            color: var(--light-pink) !important;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink)) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand, .nav-link {
+            color: var(--white) !important;
+            font-weight: 500;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            color: var(--light-pink) !important;
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        main {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+            footer a {
+                color: var(--light-pink) !important;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .btn-primary {
+            background-color: var(--primary-pink);
+            border-color: var(--primary-pink);
+        }
+
+            .btn-primary:hover {
+                background-color: #db2777;
+                border-color: #db2777;
+            }
+
+        .btn-outline-light {
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+            .btn-outline-light:hover {
+                background-color: var(--white);
+                color: var(--primary-pink);
+            }
+
+        /* Dark mode toggle button */
+        .dark-mode-toggle {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+            .dark-mode-toggle:hover {
+                transform: scale(1.1);
+            }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-building me-2"></i>MVC Project
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home me-1"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                <i class="fas fa-shield-alt me-1"></i> Privacy
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Department" asp-action="Index">
+                                <i class="fas fa-building me-1"></i> Departments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Index">
+                                <i class="fas fa-building me-1"></i> Employees
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center">
+                        <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center py-3">
+            © 2025 - MVC_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Dark mode toggle functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const icon = darkModeToggle.querySelector('i');
+
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

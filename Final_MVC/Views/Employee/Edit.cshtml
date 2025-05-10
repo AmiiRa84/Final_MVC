@@ -1,0 +1,105 @@
+﻿@using Company.DAL.Entities
+@model Employee
+@{
+    ViewData["Title"] = "Edit Employees";
+}
+
+<style>
+    /* Custom styles for purple, pink, and white theme */
+    body {
+        background-color: #F5F5F5; /* Light gray for contrast */
+        color: #333;
+    }
+
+    h1 {
+        color: #6B4EAA; /* Purple for heading */
+    }
+
+    .form-group label {
+        color: #6B4EAA; /* Purple for labels */
+        font-weight: 500;
+    }
+
+    .form-control {
+        border: 1px solid #6B4EAA; /* Purple border */
+        background-color: #FFFFFF; /* White background */
+        color: #333;
+    }
+
+        .form-control:focus {
+            border-color: #F06292; /* Pink border on focus */
+            box-shadow: 0 0 5px rgba(240, 98, 146, 0.5); /* Pink shadow */
+        }
+
+    .btn-primary {
+        background-color: #6B4EAA; /* Purple button */
+        border-color: #6B4EAA;
+        color: #FFFFFF; /* White text */
+    }
+
+        .btn-primary:hover {
+            background-color: #F06292; /* Pink on hover */
+            border-color: #F06292;
+        }
+
+    .btn-secondary {
+        background-color: #F06292; /* Pink button */
+        border-color: #F06292;
+        color: #FFFFFF; /* White text */
+    }
+
+        .btn-secondary:hover {
+            background-color: #6B4EAA; /* Purple on hover */
+            border-color: #6B4EAA;
+        }
+
+    .text-danger {
+        color: #F06292 !important; /* Pink for validation errors */
+    }
+
+    hr {
+        border-top: 1px solid #6B4EAA; /* Purple divider */
+    }
+</style>
+
+<h1>Edit Employee</h1>
+<hr />
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="col-form-label">Employee Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    
+
+    <div class="form-group mb-3">
+        <label asp-for="Age" class="col-form-label">Age</label>
+        <input asp-for="Age" class="form-control" type="number" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Salary" class="col-form-label">Salary</label>
+        <input asp-for="Salary" class="form-control" type="number" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="DepartmentId" class="col-form-label">Department ID </label>
+        <input asp-for="DepartmentId" class="form-control" type="number" />
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-4">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-controller="Department" asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

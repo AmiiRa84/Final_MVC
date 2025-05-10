@@ -1,0 +1,170 @@
+﻿@using Company.DAL.Entities
+
+@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+    <!-- Make sure this matches your layout file name -->
+}
+
+<div class="header-container">
+    <h1 class="page-title"><i class="fas fa-building me-2"></i>ALL Departments</h1>
+    <a asp-action="Create" asp-controller="Department" class="btn btn-primary-gradient">
+        <i class="fas fa-plus me-2"></i>Create Department
+    </a>
+</div>
+
+@if (Model?.Count() > 0)
+{
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr class="table-header">
+                    <th>@Html.DisplayNameFor(D => D.Code)</th>
+                    <th>@Html.DisplayNameFor(D => D.Name)</th>
+                    <th>@Html.DisplayNameFor(D => D.CreationDate)</th>
+                    <th>Details</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@item.CreationDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a asp-controller="Department" asp-route-id="@item.Id" asp-action="Details" class="btn btn-warning-gradient">
+                                <i class="fas fa-eye me-1"></i> Details
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success-gradient">
+                                <i class="fas fa-edit me-1"></i> Update
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger-gradient">
+                                <i class="fas fa-trash me-1"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <i class="fas fa-building-circle-exclamation"></i>
+        <h4>There is no Department</h4>
+    </div>
+}
+
+<style>
+    :root {
+        --primary-purple: #9c7bff;
+        --light-purple: #c4b5fd;
+        --soft-pink: #f9a8d4;
+        --baby-blue: #93c5fd;
+        --danger-pink: #f87171;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--light-purple);
+    }
+
+    .page-title {
+        color: var(--primary-purple);
+        font-weight: 600;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(156, 123, 255, 0.1);
+        overflow: hidden;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-header {
+        background: linear-gradient(135deg, var(--primary-purple), var(--baby-blue));
+        color: white;
+    }
+
+    .styled-table th {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .styled-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .styled-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .styled-table tr:hover {
+        background-color: rgba(156, 123, 255, 0.05);
+    }
+
+    .btn-primary-gradient {
+        background: linear-gradient(135deg, var(--primary-purple), var(--baby-blue));
+        color: white;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-primary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(156, 123, 255, 0.3);
+        }
+
+    .btn-warning-gradient {
+        background: linear-gradient(135deg, #fbbf24, var(--soft-pink));
+        color: white;
+        border: none;
+    }
+
+    .btn-success-gradient {
+        background: linear-gradient(135deg, #34d399, var(--baby-blue));
+        color: white;
+        border: none;
+    }
+
+    .btn-danger-gradient {
+        background: linear-gradient(135deg, var(--danger-pink), #f472b6));
+        color: red;
+        border: none;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: var(--primary-purple);
+    }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--soft-pink);
+        }
+
+        .empty-state h4 {
+            font-weight: 500;
+        }
+</style>
